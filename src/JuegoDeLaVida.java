@@ -3,22 +3,17 @@ public class JuegoDeLaVida {
     public static void main(String[] args) {
 
         boolean[][] tablero = new boolean[5][5];
+
         tablero[2][3] = true;
+        tablero[1][2] = true;
+        tablero[1][3] = true;
 
 
-        for (int i = 0; i < tablero.length; i++) {
-            for (int j = 0; j < tablero.length; j++) {
-                if (tablero[i][j]) {
-                    System.out.print("0 ");
-                }
-                else {
-                    System.out.print(". ");
-                }
-            }
-            System.out.println();
+        imprimirTablero(tablero);
 
-        }
-        System.out.println(contarVecinos(tablero, 2, 3));
+        tablero = siguienteGeneracion(tablero);
+
+        imprimirTablero(tablero);
 
     }
 
@@ -49,6 +44,40 @@ public class JuegoDeLaVida {
 
         }
         return total;
+    }
+    static boolean[][] siguienteGeneracion(boolean[][] tablero) {
+        boolean[][] nuevo = new boolean[5][5];
+        for (int i = 0; i < tablero.length; i++) {
+            for (int j = 0; j < tablero[i].length; j++) {
+
+                int vecinos = contarVecinos(tablero, i, j);
+
+                if (tablero[i][j]) {
+                    nuevo[i][j] = vecinos == 2 || vecinos == 3;
+                }
+                else {
+                    nuevo[i][j] = vecinos == 3;
+                }
+
+            }
+        }
+        return nuevo;
+
+
+    }
+    static void imprimirTablero(boolean[][] tablero) {
+        for (int i = 0; i < tablero.length; i++) {
+            for (int j = 0; j < tablero[i].length; j++) {
+                if (tablero[i][j]) {
+                    System.out.print("0 ");
+                } else {
+                    System.out.print(". ");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println();
+
     }
 
 }
