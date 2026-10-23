@@ -1,6 +1,9 @@
+import java.util.Scanner;
+
 public class JuegoDeLaVida {
 
     public static void main(String[] args) {
+
 
         boolean[][] tablero = new boolean[5][5];
 
@@ -8,12 +11,41 @@ public class JuegoDeLaVida {
         tablero[1][2] = true;
         tablero[1][3] = true;
 
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("¿Cuántas generaciones quieres simular?");
+        int numeroGeneraciones = 0;
 
+        while (true) {
+            if (!scanner.hasNextInt()) {
+                System.out.println("Debes introducir un número entero.");
+                scanner.next();
+                continue;
+            }
+
+            numeroGeneraciones = scanner.nextInt();
+
+            if (numeroGeneraciones < 0) {
+                System.out.println("El número de generaciones no puede ser negativo.");
+                continue;
+            }
+
+            break;
+        }
+
+
+        System.out.println("Generación inicial:");
         imprimirTablero(tablero);
 
-        tablero = siguienteGeneracion(tablero);
+        for (int generacion = 0; generacion < numeroGeneraciones; generacion++) {
 
-        imprimirTablero(tablero);
+            tablero = siguienteGeneracion(tablero);
+
+            System.out.println("Generación: " + (generacion + 1));
+            imprimirTablero(tablero);
+
+        }
+
+
 
     }
 
@@ -46,7 +78,7 @@ public class JuegoDeLaVida {
         return total;
     }
     static boolean[][] siguienteGeneracion(boolean[][] tablero) {
-        boolean[][] nuevo = new boolean[5][5];
+        boolean[][] nuevo = new boolean[tablero.length][tablero[0].length];
         for (int i = 0; i < tablero.length; i++) {
             for (int j = 0; j < tablero[i].length; j++) {
 
