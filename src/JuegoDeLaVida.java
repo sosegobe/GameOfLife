@@ -6,23 +6,65 @@ public class JuegoDeLaVida {
 
         Scanner scanner = new Scanner(System.in);
 
-        int inicioFila = leerEnteroPositivo(scanner, "¿Cuántas filas quieres?");
+        int filasMinimas = 0;
+        int columnasMinimas = 0;
 
-        int inicioColumna = leerEnteroPositivo(scanner, "¿Cuántas columnas quieres?");
+        int[] filasPatron = {2, 1, 1, 2, 2};
+        int[] columnasPatron = {3, 2, 3, 1, 2};
+
+
+        for (int i = 0; i < filasPatron.length; i++) {
+            if (filasPatron[i] >= filasMinimas){
+                filasMinimas = filasPatron[i];
+            }
+        }
+        filasMinimas++;
+
+        for (int i = 0; i < columnasPatron.length; i++) {
+            if (columnasPatron[i] >= columnasMinimas) {
+                columnasMinimas = columnasPatron[i];
+            }
+        }
+        columnasMinimas++;
+
+        int inicioFila = leerEnteroPositivo(scanner, "¿Cuántas filas quieres?", filasMinimas);
+
+        int inicioColumna = leerEnteroPositivo(scanner, "¿Cuántas columnas quieres?", columnasMinimas);
 
 
         boolean[][] tablero = new boolean[inicioFila][inicioColumna];
 
-        tablero[2][3] = true;
-        tablero[1][2] = true;
-        tablero[1][3] = true;
-        tablero[2][1] = true;
-        tablero[2][2] = true;
-        tablero[3][3] = true;
+        int numeroCelulas = leerEnteroNoNegativo(scanner, "¿Cuántas células vivas quieres colocar?");
+
+        for (int i = 0; i < numeroCelulas; i++) {
+            int fila = leerEnteroPositivo(
+                    scanner, "Introduce la fila de la célula " + (i + 1) + ":", 0
+            );
+
+            while (fila >= inicioFila) {
+                System.out.println("Fila no válida. Introduce un valor entre 0 y " + (inicioFila - 1));
+
+                fila = leerEnteroPositivo(
+                        scanner, "Introduce la fila de la célula " + (i + 1) + ":", 0
+                );
+            }
+
+            int columna = leerEnteroPositivo(
+                    scanner, "Introduce la columna de la célula " + (i + 1) + ":", 0
+            );
+            while (columna >= inicioColumna) {
+                System.out.println("Columna no válida. Introduce un valor entre 0 y " + (inicioColumna - 1));
+
+                columna = leerEnteroPositivo(
+                        scanner, "Introduce la columna de la célula " + (i + 1) + ":", 0
+                );
+            }
+
+            tablero[fila][columna] = true;
+        }
 
 
-        int numeroGeneraciones = leerEnteroNoNegativo(scanner, "¿Cuántas generaciones quieres simular?"
-        );
+        int numeroGeneraciones = leerEnteroNoNegativo(scanner, "¿Cuántas generaciones quieres simular?");
 
 
         System.out.println("Generación inicial:");
@@ -104,7 +146,7 @@ public class JuegoDeLaVida {
 
     }
 
-    static int leerEnteroPositivo(Scanner scanner, String mensaje) {
+    static int leerEnteroPositivo(Scanner scanner, String mensaje, int minimo) {
         System.out.println(mensaje);
         while (true) {
             if (!scanner.hasNextInt()) {
@@ -114,8 +156,8 @@ public class JuegoDeLaVida {
             }
             int numero = scanner.nextInt();
 
-            if (numero <= 0) {
-                System.out.println("El número debe ser mayor que cero.");
+            if (numero < minimo) {
+                System.out.println("Debes introducir un número igual o superior a " + minimo);
                 continue;
             }
             return numero;
