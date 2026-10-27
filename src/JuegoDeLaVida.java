@@ -4,33 +4,25 @@ public class JuegoDeLaVida {
 
     public static void main(String[] args) {
 
+        Scanner scanner = new Scanner(System.in);
 
-        boolean[][] tablero = new boolean[5][5];
+        int inicioFila = leerEnteroPositivo(scanner, "¿Cuántas filas quieres?");
+
+        int inicioColumna = leerEnteroPositivo(scanner, "¿Cuántas columnas quieres?");
+
+
+        boolean[][] tablero = new boolean[inicioFila][inicioColumna];
 
         tablero[2][3] = true;
         tablero[1][2] = true;
         tablero[1][3] = true;
+        tablero[2][1] = true;
+        tablero[2][2] = true;
+        tablero[3][3] = true;
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("¿Cuántas generaciones quieres simular?");
-        int numeroGeneraciones = 0;
 
-        while (true) {
-            if (!scanner.hasNextInt()) {
-                System.out.println("Debes introducir un número entero.");
-                scanner.next();
-                continue;
-            }
-
-            numeroGeneraciones = scanner.nextInt();
-
-            if (numeroGeneraciones < 0) {
-                System.out.println("El número de generaciones no puede ser negativo.");
-                continue;
-            }
-
-            break;
-        }
+        int numeroGeneraciones = leerEnteroNoNegativo(scanner, "¿Cuántas generaciones quieres simular?"
+        );
 
 
         System.out.println("Generación inicial:");
@@ -110,6 +102,47 @@ public class JuegoDeLaVida {
         }
         System.out.println();
 
+    }
+
+    static int leerEnteroPositivo(Scanner scanner, String mensaje) {
+        System.out.println(mensaje);
+        while (true) {
+            if (!scanner.hasNextInt()) {
+                System.out.println("Debes introducir un número entero.");
+                scanner.next();
+                continue;
+            }
+            int numero = scanner.nextInt();
+
+            if (numero <= 0) {
+                System.out.println("El número debe ser mayor que cero.");
+                continue;
+            }
+            return numero;
+
+        }
+
+    }
+
+    static int leerEnteroNoNegativo(Scanner scanner, String mensaje) {
+        System.out.println(mensaje);
+
+        while (true) {
+            if (!scanner.hasNextInt()) {
+                System.out.println("Debes introducir un número entero.");
+                scanner.next();
+                continue;
+            }
+
+            int numero = scanner.nextInt();
+
+            if (numero < 0) {
+                System.out.println("El número no puede ser negativo.");
+                continue;
+            }
+
+            return numero;
+        }
     }
 
 }
