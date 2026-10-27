@@ -6,26 +6,9 @@ public class JuegoDeLaVida {
 
         Scanner scanner = new Scanner(System.in);
 
-        int filasMinimas = 0;
-        int columnasMinimas = 0;
+        int filasMinimas = 1;
+        int columnasMinimas = 1;
 
-        int[] filasPatron = {2, 1, 1, 2, 2};
-        int[] columnasPatron = {3, 2, 3, 1, 2};
-
-
-        for (int i = 0; i < filasPatron.length; i++) {
-            if (filasPatron[i] >= filasMinimas){
-                filasMinimas = filasPatron[i];
-            }
-        }
-        filasMinimas++;
-
-        for (int i = 0; i < columnasPatron.length; i++) {
-            if (columnasPatron[i] >= columnasMinimas) {
-                columnasMinimas = columnasPatron[i];
-            }
-        }
-        columnasMinimas++;
 
         int inicioFila = leerEnteroPositivo(scanner, "¿Cuántas filas quieres?", filasMinimas);
 
@@ -35,32 +18,47 @@ public class JuegoDeLaVida {
         boolean[][] tablero = new boolean[inicioFila][inicioColumna];
 
         int numeroCelulas = leerEnteroNoNegativo(scanner, "¿Cuántas células vivas quieres colocar?");
+        int maximoCelulas = inicioFila * inicioColumna;
 
-        for (int i = 0; i < numeroCelulas; i++) {
+        while (numeroCelulas > maximoCelulas) {
+            System.out.println("No caben tantas células en el tablero.");
+            numeroCelulas = leerEnteroNoNegativo(
+                    scanner, "¿Cuántas células vivas quieres colocar?"
+            );
+        }
+
+        int celulasColocadas = 0;
+
+        while (celulasColocadas < numeroCelulas) {
             int fila = leerEnteroPositivo(
-                    scanner, "Introduce la fila de la célula " + (i + 1) + ":", 0
+                    scanner, "Introduce la fila de la célula " + (celulasColocadas + 1) + ":", 0
             );
 
             while (fila >= inicioFila) {
                 System.out.println("Fila no válida. Introduce un valor entre 0 y " + (inicioFila - 1));
 
                 fila = leerEnteroPositivo(
-                        scanner, "Introduce la fila de la célula " + (i + 1) + ":", 0
+                        scanner, "Introduce la fila de la célula " + (celulasColocadas + 1) + ":", 0
                 );
             }
 
             int columna = leerEnteroPositivo(
-                    scanner, "Introduce la columna de la célula " + (i + 1) + ":", 0
+                    scanner, "Introduce la columna de la célula " + (celulasColocadas + 1) + ":", 0
             );
             while (columna >= inicioColumna) {
                 System.out.println("Columna no válida. Introduce un valor entre 0 y " + (inicioColumna - 1));
 
                 columna = leerEnteroPositivo(
-                        scanner, "Introduce la columna de la célula " + (i + 1) + ":", 0
+                        scanner, "Introduce la columna de la célula " + (celulasColocadas + 1) + ":", 0
                 );
             }
 
-            tablero[fila][columna] = true;
+            if (tablero[fila][columna]) {
+                System.out.println("Esa célula ya está viva. Elige otra posición.");
+            } else {
+                tablero[fila][columna] = true;
+                celulasColocadas++;
+            }
         }
 
 
